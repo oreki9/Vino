@@ -1,0 +1,11 @@
+var DText = [];
+DText.push(AddInDict("mungkin kita coba bisa membujuk dia"));
+DText.push(AddInDict("walaupun kapten melawan dia tanpa luka itu tak mungkin"));
+DText.push(AddInDict("When you are working with the canvas element in Javascript sometimes you need to interact with the user. You can interact with the keyboard, but it's more interesting using the mouse events. If you use the last method there's a problem, you can't use mouse events with the objects that are in the canvas element. You need to get the coordinates of a mouse click on a canvas element."));
+//make array to string parser
+DialogEvent.push([{action:"Image",name:"bcg1",url:"Images/bgimage/BG3.png",x:0,y:0,z:0},{action:"Image",name:"img1",url:"Images/nanami.png",x:50,y:85,z:1},{action:"Image",name:"bc1",url:"Images/87646o.png",x:20,y:450,z:2},{action:"Text",name:"txt1",Text:DialogString(DText[0]),height:15,x:50,y:500,z:0,speed:10,color:"white"},{action:"Text",name:"txt2",Text:"Nanami : ",height:15,x:50,y:480,z:0,speed:0,color:"white"}]);
+DialogEvent.push([{action:"ReTxt",name:"txt2",Text:"Kirigiri : "},{action:"Delete",name:"txt1"},{action:"Image",name:"img2",url:"Images/kirigiri.png",x:400,y:60,z:1,width:636,height:539},{action:"Text",name:"txt1",Text:DialogString(DText[1]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
+DialogEvent.push([{action:"Wait"},{action:"Delete",name:"txt2"},{action:"Delete",name:"bc1"},{action:"Delete",name:"txt1"},{action:"Image",name:"sel",url:"Images/select.png",x:350,y:200,z:3, hitbtn:[{x:395,y:200,width:204,height:43},{a1: 638,a2: 599,ay: 241,tx: 599,ty: 200},{a1: 354,a2: 394,ay: 199,tx: 394,ty: 240}] ,btn:"console.log('img2');"},{action:"Image",name:"sel2",url:"Images/select.png",x:350,y:270,z:3,hitbtn:SplitButton([{x:395,y:311},{x:354,y:270},{x:597,y:270},{x:638,y:311}]),btn:"console.log('img3');GoTo('next');"}]);
+DialogEvent.push([{action:"Delete",name:"sel"},{action:"Delete",name:"sel2"},{action:"Image",name:"bc1",url:"Images/87646o.png",x:20,y:450,z:2},{action:"Text",name:"txt2",Text:"Nanami : ",height:15,x:50,y:480,z:0,speed:0,color:"white"},{action:"Text",name:"txt1",Text:DialogString(DText[2]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
+console.log(wordDict.array);
+GameStart();
