@@ -1,11 +1,20 @@
-/*wordPos.push(AddInDict("mungkin kita coba bisa membujuk dia"));
-wordPos.push(AddInDict("walaupun kapten melawan dia tanpa luka itu tak mungkin"));
-wordPos.push(AddInDict("When you are working with the canvas element in Javascript sometimes you need to interact with the user. You can interact with the keyboard, but it's more interesting using the mouse events. If you use the last method there's a problem, you can't use mouse events with the objects that are in the canvas element. You need to get the coordinates of a mouse click on a canvas element."));*/
-wordDict.array=[["mungkin","kita","membujuk","tanpa","working","to","mouse","element."],["coba","bisa","dia","luka","with","interact","events.","get"],["walaupun","kapten","melawan","itu","the","user.","If","coordinates"],["tak","When","you","are","canvas","You","use","of"],["element","in","Javascript","sometimes","need","can","last","click"],["keyboard,","but","it's","more","interesting","using","method","on"],["there's","a","problem,","can't","events","objects","that"]];
-wordPos=[[{x:0,y:0},{x:0,y:1},{x:1,y:0},{x:1,y:1},{x:0,y:2},{x:1,y:2}],[{x:2,y:0},{x:2,y:1},{x:2,y:2},{x:1,y:2},{x:0,y:3},{x:1,y:3},{x:2,y:3},{x:3,y:0},{x:0,y:0}],[{x:3,y:1},{x:3,y:2},{x:3,y:3},{x:0,y:4},{x:1,y:4},{x:2,y:4},{x:3,y:4},{x:4,y:0},{x:4,y:1},{x:4,y:2},{x:4,y:3},{x:3,y:2},{x:4,y:4},{x:0,y:5},{x:1,y:5},{x:1,y:4},{x:2,y:4},{x:2,y:5},{x:3,y:5},{x:4,y:5},{x:1,y:5},{x:1,y:4},{x:2,y:4},{x:5,y:0},{x:5,y:1},{x:5,y:2},{x:5,y:3},{x:5,y:4},{x:5,y:5},{x:2,y:4},{x:0,y:6},{x:1,y:6},{x:2,y:6},{x:3,y:2},{x:3,y:6},{x:2,y:4},{x:4,y:6},{x:5,y:6},{x:6,y:0},{x:6,y:1},{x:6,y:2},{x:3,y:2},{x:6,y:3},{x:3,y:6},{x:0,y:6},{x:6,y:4},{x:1,y:4},{x:2,y:4},{x:6,y:5},{x:6,y:6},{x:3,y:3},{x:4,y:1},{x:2,y:4},{x:3,y:4},{x:0,y:7},{x:3,y:5},{x:4,y:4},{x:0,y:5},{x:1,y:7},{x:2,y:4},{x:2,y:7},{x:3,y:7},{x:6,y:1},{x:0,y:6},{x:4,y:7},{x:5,y:7},{x:6,y:1},{x:3,y:4},{x:0,y:7}]];
-
+wordPos = [];
+wordPos.push(AddInDict("selamat datang di dunia saya, perkenalkan saya pencipta dunia ini"));
+wordPos.push(AddInDict("saya ingin kamu menjalani dua cerita yang berbeda dan memilih jalan sesuai pilihanmu"));
+wordPos.push(AddInDict("jangan khawatir, kamu bebas dalam duniaku, kamu bisa berhenti kapan saja, berlaku apa saja saya tidak akan memaksamu"));
+wordPos.push(AddInDict("saya tak mempunyai tujuan, kamu yang datang kepada saya"));
+wordPos.push(AddInDict("sampai bertemu kembali"));
+wordPos.push(AddInDict("HAHAHAHAHAHAHAHA!!!"));
+wordPos.push(AddInDict("KRING KRING KRING!!!!!"));
+wordPos.push(AddInDict("( hngg... berisik, ngantuk ... jam berapa ini ... jam 8.. JAM 8!! berangkat kerja!!!)"));
 //make array to string parser
 DialogEvent.push([{action:"Image",name:"bcg1",url:"Images/bgimage/BG3.png",x:0,y:0,z:0},{action:"Image",name:"img1",url:"Images/nanami.png",x:50,y:85,z:1},{action:"Image",name:"bc1",url:"Images/87646o.png",x:20,y:450,z:2},{action:"Text",name:"txt1",Text:DialogString(wordPos[0]),height:15,x:50,y:500,z:0,speed:10,color:"white"},{action:"Text",name:"txt2",Text:"Nanami : ",height:15,x:50,y:480,z:0,speed:0,color:"white"}]);
 DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[1]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
-console.log(wordDict.array);
+DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[2]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
+DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[3]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
+DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[4]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
+DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[5]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
+DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Delete",name:"bcg1"},{action:"Delete",name:"img1"},{action:"Delete",name:"txt2"},{action:"Delete",name:"bc1"}]);
+DialogEvent.push([{action:"Image",name:"bcg1",url:"Images/bgimage/BG3.png",x:0,y:0,z:0},{action:"Image",name:"bc1",url:"Images/87646o.png",x:20,y:450,z:2},{action:"Text",name:"txt1",Text:DialogString(wordPos[6]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
+DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[7]),height:15,x:50,y:500,z:0,speed:10,color:"white"},{action:"Text",name:"txt2",Text:"Saya : ",height:15,x:50,y:480,z:0,speed:0,color:"white"}]);
 GameStart();
