@@ -1,10 +1,11 @@
 var wordDict = {array:[[]],width:4,height:4};
 var wordPos = [];
 
-var ImgBtn = [];
 var DialogEvent = [];
+var ImgBtn = [];
 var LayerTxt = [];
 var LayerImg = [];
+var AnimPos = [];
 var TimeLyr = 0;
 var Lyrnow = 0;
 var nclick = false;
@@ -95,6 +96,37 @@ function GetTriAngle(pos1,pos2,cntr){
 		return {a:{x:pos2.x,y:pos2.y},b:{x:pos1.x,y:pos1.y},c:{x:pos1.x,y:pos2.y}};
 	}
 	return 0;
+}
+function Animate(o){
+	if(o.time==0){
+		if(o.name=="func1"){
+			console.log(o);
+		}
+		DelItemArr(AnimPos,function(x){return x.name==o.name});
+		return;
+	}
+	function SameNm(x){return (x.name==o.name);};
+	var Arrpar = [[ImgBtn,SameNm],[LayerImg,SameNm],[LayerTxt,SameNm]];
+	function FindChange(arr,func){
+		var i = FindIndex(arr,func);
+		if(i!=undefined)Change(arr,i);
+		return i;
+	}
+	if(o.func!=undefined){
+		o.func(o.par);
+		o.time-=1;
+	}
+	ArrFunc([FindChange],Arrpar,[function(x){return (x!=undefined);}]);
+	function Change(arr,i){
+		if(o.x!=undefined){
+			var plus = ((o.x-arr[i].x)/o.time);
+			arr[i].x=arr[i].x+plus;
+		}else if(o.y!=undefined){
+			var plus = ((o.y-arr[i].y)/o.time);
+			arr[i].y=arr[i].y+plus;
+		};
+		o.time-=1;
+	}
 }
 function GetRectBtn(cor,i){
 	var Rect = {x:0,y:0,width:0,height:0};
@@ -292,8 +324,17 @@ function GameStart(){
 		Update();LoadLayer();
 	},fps);
 }
+function DelItemArr(Arr,func){
+	var ind = FindIndex(Arr,func);
+	if(ind!=undefined){
+		Arr.splice(ind,1);
+		return true;
+	}
+	return false;
+}
 function NewLayer(lyr){//setaip layer
 	if(lyr!=undefined){
+	function SameNm(e){return lyr[i].name==e.name;};
 	for(var i =0;i<lyr.length;i++){
 		if(lyr[i].action=="Image"){
 			if(lyr[i].hitbtn!=undefined){
@@ -304,37 +345,69 @@ function NewLayer(lyr){//setaip layer
 		}else if(lyr[i].action=="Text"){
 			PlaceText(lyr[i].name,lyr[i].Text,lyr[i].height,lyr[i].x,lyr[i].y,lyr[i].z,lyr[i].speed,lyr[i].color);
 		}else if(lyr[i].action=="Delete"){
-			for(var o=0;o<LayerImg.length;o++){
-				if(lyr[i].name==LayerImg[o].name){
-					LayerImg.splice(o,1);
-				}
-			}
-			for(var o=0;o<ImgBtn.length;o++){
-				if(lyr[i].name==ImgBtn[o].name){
-					ImgBtn.splice(o,1);
-				}
-			}
-			for(var o=0;o<LayerTxt.length;o++){
-				if(lyr[i].name==LayerTxt[o].name){
-					LayerTxt.splice(o,1);
-				}
-			}
+			var Arrpar = [[LayerImg,SameNm],[ImgBtn,SameNm],[LayerTxt,SameNm]];
+			ArrFunc([DelItemArr],Arrpar,[function(x){return x;}]);
 		}else if(lyr[i].action=="Wait"){
 			nclick = true;
 		}else if(lyr[i].action=="ReTxt"){
-			for(var o=0;o<LayerTxt.length;o++){
-				if(lyr[i].name==LayerTxt[o].name){
-					LayerTxt[o].Text = lyr[i].Text;
-				}
-			}
+			LayerTxt[FindIndex(LayerTxt,SameNm)].Text = lyr[i].Text;
 		}else if(lyr[i].action=="ReImg"){
-			for(var o=0;o<LayerImg.length;o++){
-				if(lyr[i].name==LayerImg[o].name){
-					LayerImg[o].Image = lyr[i].Image;
-				}
+			LayerImg[FindIndex(LayerImg,SameNm)].Image = lyr[i].Image;
+		}else if(lyr[i].action=="Animate"){
+			var item = GetIAllArr(lyr[i].name);
+			if(lyr[i].x){
+				AnimPos.push({name:lyr[i].name,time:lyr[i].time,x:lyr[i].x,click:lyr[i].click});
+			}
+			if(lyr[i].y){
+				AnimPos.push({name:lyr[i].name,time:lyr[i].time,y:lyr[i].y,click:lyr[i].click});
+			}
+			if(lyr[i].func){
+				AnimPos.push({name:lyr[i].name,func:lyr[i].func,par:lyr[i].par,time:lyr[i].time,click:lyr[i].click});
 			}
 		}
 	}}
+}
+function GetIAllArr(itemNm){
+	var func = function(x){if(x.name==itemNm){found=x;return true;}else{return false}};
+	var arrVar = [[ImgBtn,func],[LayerImg,func],[LayerTxt,func]];
+	var found;
+	ArrFunc([FindIndex],arrVar,[function(x){if(x==undefined){return false};return true;}]);
+	return found;
+}
+//jalankan array satu2
+//arr=func,arrvar=parameter,arrCek=cekfunc
+function ArrFunc(Arr,Arrvar,ArrCek){
+	function loop(len,func){
+		for(var i=0;i<len;i++){
+			if(func(i)==true){break;}
+		}
+	}
+	function GetBiggest(arr){
+		var big = 0;
+		for(var i=0;i<arr.length;i++){
+			if(big<arr[i]){big=arr[i];}
+		}
+		return big;
+	}
+	function PassPar(arr,func){
+		if(typeof arr!='object'){return func(arr);}
+		if(arr.length>5){
+			console.log("max 4 parameter");
+		}else{
+			return func(arr[0],arr[1],arr[2],arr[3],arr[4]);
+		}
+	}
+	var loopcount = GetBiggest([Arr.length,Arrvar.length,ArrCek.length]);
+	loop(loopcount,function(x){
+		var functI = PassPar(GetArray(Arrvar,x),GetArray(Arr,x));
+		return GetArray(ArrCek,x)(functI);
+	});
+}
+//get item else get last item
+function GetArray(Arr,i){
+	var item = Arr[i];
+	if(item!=undefined){return item;
+	}else{return Arr[Arr.length-1];}
 }
 function insideTri(pos,cor){
 	if(((pos.x>=cor.a1)&&(pos.x<cor.a2))||((pos.x<cor.a1)&&(pos.x>=cor.a2))){
@@ -349,12 +422,16 @@ function insideTri(pos,cor){
 }
 function GoTo(i){
 	if(i=="next"){
-		Lyrnow+=1;
+		NextLayer();
 	}else{
 		Lyrnow=i;
 	}
 	NewLayer(DialogEvent[Lyrnow]);
 	nclick = false;
+}
+function NextLayer(){
+	AnimPos.forEach(function(x,i){if(x.click>0){AnimPos.splice(i,1);}});
+	Lyrnow+=1;
 }
 function Main(){
 	this.canvas = document.getElementsByClassName("vinowin")[0];
@@ -362,7 +439,7 @@ function Main(){
 		var mousePos = getCursorPos(canvas, e);
 		if(TimeLyr==0){
 			if(nclick==false){
-				Lyrnow+=1;
+				NextLayer();
 				NewLayer(DialogEvent[Lyrnow]);
 			}
 		}else{
@@ -390,17 +467,10 @@ function Update(){
 }
 function LoadLayer(){//update versi framework
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	for(var i=0;i<LayerImg.length;i++){
-		LoadImage(LayerImg[i]);
-	}
-	for(var i=0;i<LayerTxt.length;i++){
-		LoadTxt(LayerTxt[i]);
-	}
-	if(TimeLyr==0){
-		
-	}else{
-		TimeLyr-=1;
-	}
+	LayerImg.forEach(LoadImage);
+	LayerTxt.forEach(LoadTxt);
+	AnimPos.forEach(Animate);
+	if(TimeLyr!=0){TimeLyr-=1;}
 }
 function getCursorPos(canvas, event) {
     const rect = canvas.getBoundingClientRect();
@@ -436,8 +506,16 @@ function lengthVert(wordDict,o){//panjang bawah array2d
 	}
 	return len;
 }
-function AddInDict(word){//menambah wordDict dari string
+function FindIndex(array,func){
+	for(var i=0;i<array.length;i++){
+		if(func(array[i],i,array)){
+			return i;
+		}
+	}
+}
+function AddInDict(word){
 	var SplitWord = word.split(" ");
+<<<<<<< HEAD
 	var Vertical = false;
 	var e=0;
 	var WordList = [];
@@ -502,11 +580,52 @@ function AddInDict(word){//menambah wordDict dari string
 					wordDict.array[i][o] = SplitWord[e];
 					WordList.push({x:i,y:o});
 					break;
+=======
+	var ArrayPos = [];
+	SplitWord.forEach(WDExist);
+	return ArrayPos;
+	function WDExist(o){
+		wordDict.array.some(
+			function(i,indx){
+				if(i.length==0){i.push(o);ArrayPos.push({x:0,y:indx});return true;};
+				if((indx==0)&&(wordDict.array[wordDict.array.length-1][i.length-1]!=0)){
+					wordDict.array = AddUndifine(wordDict.array);
+				}
+				var findzero = FindIndex(i,UbahKosong);
+				if(findzero!=undefined){
+					i[findzero]=o;
+					ArrayPos.push({x:findzero,y:indx});
+					return true;
+				}
+				return false;
+				function UbahKosong(item){
+					switch(item){
+						case o:return true;
+						case 0:item = o;return true;
+						case undefined:item = o;return true;
+						default:return false;
+					}
+>>>>>>> 1b85b2aebae1002c21d1314e69aa7c9eb2231a5c
 				}
 			}
-		}
+		)
 	}
-	return WordList;
+	function AddUndifine(matrix){
+		matrix = matrix.map(function(x){x.push(0);/*console.log(x);*/return x;});
+		var newArr = [];
+		matrix[0].forEach(function(x){newArr.push(0);});
+		matrix.push(newArr);
+		PrintMatrix(matrix);
+		return matrix;
+	}
+}
+function PrintMatrix(matrix){
+	var newarray = [];
+	matrix.forEach(function(x){
+		var arraychild = [];
+		x.forEach(function(y){arraychild.push(y);});
+		newarray.push(arraychild);
+	});
 }
 function SaveToJS(){
 	function RowInWD(item){
@@ -529,7 +648,7 @@ function SaveToJS(){
 function DialogString(arai){//mengubah array ke string dengan wordDict
 	var kata = "";
 	for(var o=0;o<arai.length;o++){
-		kata+=wordDict.array[arai[o].x][arai[o].y]+" ";
+		kata+=wordDict.array[arai[o].y][arai[o].x]+" ";
 	}
 	return kata;
 }
