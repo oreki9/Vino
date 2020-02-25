@@ -79,7 +79,7 @@ function AddBtn(nm,btn,base_image,hit){//ek,ye,width,height){//add hitbox button
 function Jarak(pos1,pos2){
 	return Math.sqrt(Math.pow(Math.abs(pos1.x-pos2.x),2)+Math.pow(Math.abs(pos1.y-pos2.y),2));
 }
-function GetCenter(cor){//it is right?
+function GetCenter(cor){
 	var center = {x:0,y:0};
 	for(var i=0;i<cor.length;i++){
 		center.x+=cor[i].x;
@@ -215,9 +215,6 @@ function SplitButton(cor){//array object searah clockwise dan dari bawah
 	}
 	return ReImgBtn.concat(Rect); 
 }
-function InsideCor(cor,pos){
-	
-}
 function LoadImage(img){
 	if((img.height!=undefined)&&(img.width!=undefined)){
 		ctx.drawImage(img.Image,img.x,img.y,img.width,img.height);
@@ -299,7 +296,6 @@ function NewLayer(lyr){//setaip layer
 	if(lyr!=undefined){
 	for(var i =0;i<lyr.length;i++){
 		if(lyr[i].action=="Image"){
-			//console.log(lyr[i]);
 			if(lyr[i].hitbtn!=undefined){
 				PlaceImage(lyr[i].url,lyr[i].name,lyr[i].x,lyr[i].y,lyr[i].z,lyr[i].btn,lyr[i].width,lyr[i].height,lyr[i].hitbtn);
 			}else{
@@ -442,7 +438,7 @@ function lengthVert(wordDict,o){//panjang bawah array2d
 }
 function AddInDict(word){//menambah wordDict dari string
 	var SplitWord = word.split(" ");
-	var Vertical = 0;
+	var Vertical = false;
 	var e=0;
 	var WordList = [];
 	if(wordDict.array[0].length==0){
@@ -454,26 +450,26 @@ function AddInDict(word){//menambah wordDict dari string
 		var i =0;
 		var o = 0;
 		while(true){
-			if(wordDict.array[i][o]==undefined){//bahaya bila i dan o tidak dianggap number
+			if(wordDict.array[i][o]==undefined){//bahaya bila i dan o tidak number
 				break;
 			}
 			if(wordDict.array[i][o]==SplitWord[e]){
 				WordList.push({x:i,y:o});
 				break;
 			}
-			if(Vertical==0){
+			if(Vertical==false){
 				if(wordDict.array[i][o+1]==undefined){
 					if(wordDict.array[i+1]==undefined){
 						if(i==o){
 							wordDict.array[0][o+1] = SplitWord[e];
 							WordList.push({x:0,y:o+1});
-							Vertical=1;
+							Vertical=true;
 						}else{
 							if((i!=0)&&(o+1>=wordDict.array[0].length)){
 								wordDict.array.push([]);
 								wordDict.array[i+1][0] = SplitWord[e];
 								WordList.push({x:i+1,y:0});
-								Vertical=1;
+								Vertical=true;
 							}else{
 								wordDict.array[i][o+1] = SplitWord[e];
 								WordList.push({x:i,y:o+1});
@@ -494,7 +490,7 @@ function AddInDict(word){//menambah wordDict dari string
 							wordDict.array.push([]);
 							wordDict.array[i+1][0] = SplitWord[e];
 							WordList.push({x:i+1,y:0});
-							Vertical=0;
+							Vertical=false;
 						}
 						break;
 					}
@@ -502,6 +498,7 @@ function AddInDict(word){//menambah wordDict dari string
 					i=0;
 				}else{i++;}
 				if(wordDict.array[i][o]==undefined){
+					console.log(SplitWord[e]);
 					wordDict.array[i][o] = SplitWord[e];
 					WordList.push({x:i,y:o});
 					break;
