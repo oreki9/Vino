@@ -80,7 +80,7 @@ function AddBtn(nm,btn,base_image,hit){//ek,ye,width,height){//add hitbox button
 function Jarak(pos1,pos2){
 	return Math.sqrt(Math.pow(Math.abs(pos1.x-pos2.x),2)+Math.pow(Math.abs(pos1.y-pos2.y),2));
 }
-function GetCenter(cor){
+function GetCenter(cor){//it is right?
 	var center = {x:0,y:0};
 	for(var i=0;i<cor.length;i++){
 		center.x+=cor[i].x;
@@ -515,72 +515,6 @@ function FindIndex(array,func){
 }
 function AddInDict(word){
 	var SplitWord = word.split(" ");
-<<<<<<< HEAD
-	var Vertical = false;
-	var e=0;
-	var WordList = [];
-	if(wordDict.array[0].length==0){
-		wordDict.array[0].push(SplitWord[0]);
-		WordList.push({x:0,y:0});
-		e=1;
-	}
-	for(;e<SplitWord.length;e++){
-		var i =0;
-		var o = 0;
-		while(true){
-			if(wordDict.array[i][o]==undefined){//bahaya bila i dan o tidak number
-				break;
-			}
-			if(wordDict.array[i][o]==SplitWord[e]){
-				WordList.push({x:i,y:o});
-				break;
-			}
-			if(Vertical==false){
-				if(wordDict.array[i][o+1]==undefined){
-					if(wordDict.array[i+1]==undefined){
-						if(i==o){
-							wordDict.array[0][o+1] = SplitWord[e];
-							WordList.push({x:0,y:o+1});
-							Vertical=true;
-						}else{
-							if((i!=0)&&(o+1>=wordDict.array[0].length)){
-								wordDict.array.push([]);
-								wordDict.array[i+1][0] = SplitWord[e];
-								WordList.push({x:i+1,y:0});
-								Vertical=true;
-							}else{
-								wordDict.array[i][o+1] = SplitWord[e];
-								WordList.push({x:i,y:o+1});
-							}
-						}
-						break;
-					}
-					i++;
-					o=0;
-				}else{o++;}
-			}else{
-				if(wordDict.array[i+1]==undefined){
-					if(wordDict.array[0][o+1]==undefined){
-						if(i==o){
-							wordDict.array[0].push(SplitWord[e]);
-							WordList.push({x:0,y:o+1});
-						}else{
-							wordDict.array.push([]);
-							wordDict.array[i+1][0] = SplitWord[e];
-							WordList.push({x:i+1,y:0});
-							Vertical=false;
-						}
-						break;
-					}
-					o++;
-					i=0;
-				}else{i++;}
-				if(wordDict.array[i][o]==undefined){
-					console.log(SplitWord[e]);
-					wordDict.array[i][o] = SplitWord[e];
-					WordList.push({x:i,y:o});
-					break;
-=======
 	var ArrayPos = [];
 	SplitWord.forEach(WDExist);
 	return ArrayPos;
@@ -605,13 +539,12 @@ function AddInDict(word){
 						case undefined:item = o;return true;
 						default:return false;
 					}
->>>>>>> 1b85b2aebae1002c21d1314e69aa7c9eb2231a5c
 				}
 			}
 		)
 	}
 	function AddUndifine(matrix){
-		matrix = matrix.map(function(x){x.push(0);/*console.log(x);*/return x;});
+		matrix = matrix.map(function(x){x.push(0);return x;});
 		var newArr = [];
 		matrix[0].forEach(function(x){newArr.push(0);});
 		matrix.push(newArr);
@@ -652,4 +585,3 @@ function DialogString(arai){//mengubah array ke string dengan wordDict
 	}
 	return kata;
 }
-//SplitButton([{x:15,y:200},{x:15,y:160},{x:30,y:80},{x:15,y:60},{x:20,y:20},{x:50,y:20},{x:65,y:50},{x:60,y:70},{x:50,y:80},{x:80,y:150},{x:100,y:200}]);
