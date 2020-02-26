@@ -8,19 +8,23 @@ wordPos.push(AddInDict("suasana toko yang bernuansa jaman dulu ini adalah salah 
 wordPos.push(AddInDict("Bisa dibilang sang pemuda adalah penyuka jaman dulu"));
 wordPos.push(AddInDict("[ Selamat datang di toko buku BookOne ]"));
 wordPos.push(AddInDict("[ Ah, Kak Dan, hari ini mau beli buku apa ya ? ]"));
-wordPos.push(AddInDict(" perempuan mendekati sang pemuda yang bernama dan "));
+wordPos.push(AddInDict(" perempuan mendekati sang pemuda yang bernama Dan "));
 wordPos.push(AddInDict("[ Malam libhi, yang aku pesan sudah datang ? ]"));
 wordPos.push(AddInDict("[ Ah iya, Novel Dune sudah datang lho, ini ]"));
 wordPos.push(AddInDict(" perempuan yang bernama libhi menyerahkan sebuah buku tua kepada Dan"));
 wordPos.push(AddInDict("[ sangat sulit menemukanya lho, bahkan WorldRecord membutuhkan waktu berjam-jam menemukanya ]"));
 wordPos.push(AddInDict("[ aku juga mencarinya tapi sangat sulit menemukanya, dengan akses Level 5-ku hanya menunjukan kalau ada beberapa yang tersisa, tetapi tidak ditampilkan tempat dan pemiliknya ]"));
-wordPos.push(AddInDict(" libhi dan Dan bertemu saat libhi ditugaskan pertama kalinya di toko buku ini"));
+wordPos.push(AddInDict(" libhi dan Dan bertemu saat libhi ditugaskan pertama kalinya di toko buku ini "));
 //make array to string parser
-DialogEvent.push([{action:"Image",name:"bcg1",url:"Images/bgimage/BG3.png",x:0,y:0,z:0},{action:"Image",name:"bc1",url:"Images/87646o.png",x:20,y:450,z:2},{action:"Text",name:"txt1",Text:DialogString(wordPos[0]),height:15,x:50,y:500,z:0,speed:10,color:"white"},{action:"Text",name:"txt2",Text:"Nanami : ",height:15,x:50,y:480,z:0,speed:0,color:"white"}]);
+DialogEvent.push([{action:"Image",name:"bcg1",url:"Images/bgimage/BG2.png",x:0,y:0,z:0},{action:"Image",name:"bc1",url:"Images/87646o.png",x:20,y:450,z:2},{action:"Text",name:"txt1",Text:DialogString(wordPos[0]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
 DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[1]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
 DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[2]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
 DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[3]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
 DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[4]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
 DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[5]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
 DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[6]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
+DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[7]),height:15,x:50,y:500,z:0,speed:10,color:"white"},{action:"Image",name:"img1",url:"Images/nanami.png",x:50,y:85,z:1},{action:"Text",name:"txt2",Text:"Libghi : ",height:15,x:50,y:480,z:0,speed:0,color:"white"}]);
+DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[8]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
+DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[9]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
+DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[10]),height:15,x:50,y:500,z:0,speed:10,color:"white"},{action:"Image",name:"img2",url:"Images/kirigiri.png",x:400,y:60,z:1,width:636,height:539},{action:"ReTxt",name:"txt2",Text:"Dan : "}]);
 GameStart();

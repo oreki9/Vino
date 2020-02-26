@@ -334,38 +334,48 @@ function DelItemArr(Arr,func){
 }
 function NewLayer(lyr){//setaip layer
 	if(lyr!=undefined){
-	function SameNm(e){return lyr[i].name==e.name;};
-	for(var i =0;i<lyr.length;i++){
-		if(lyr[i].action=="Image"){
-			if(lyr[i].hitbtn!=undefined){
-				PlaceImage(lyr[i].url,lyr[i].name,lyr[i].x,lyr[i].y,lyr[i].z,lyr[i].btn,lyr[i].width,lyr[i].height,lyr[i].hitbtn);
-			}else{
-				PlaceImage(lyr[i].url,lyr[i].name,lyr[i].x,lyr[i].y,lyr[i].z,lyr[i].btn,lyr[i].width,lyr[i].height);
-			}
-		}else if(lyr[i].action=="Text"){
-			PlaceText(lyr[i].name,lyr[i].Text,lyr[i].height,lyr[i].x,lyr[i].y,lyr[i].z,lyr[i].speed,lyr[i].color);
-		}else if(lyr[i].action=="Delete"){
-			var Arrpar = [[LayerImg,SameNm],[ImgBtn,SameNm],[LayerTxt,SameNm]];
-			ArrFunc([DelItemArr],Arrpar,[function(x){return x;}]);
-		}else if(lyr[i].action=="Wait"){
-			nclick = true;
-		}else if(lyr[i].action=="ReTxt"){
-			LayerTxt[FindIndex(LayerTxt,SameNm)].Text = lyr[i].Text;
-		}else if(lyr[i].action=="ReImg"){
-			LayerImg[FindIndex(LayerImg,SameNm)].Image = lyr[i].Image;
-		}else if(lyr[i].action=="Animate"){
-			var item = GetIAllArr(lyr[i].name);
-			if(lyr[i].x){
-				AnimPos.push({name:lyr[i].name,time:lyr[i].time,x:lyr[i].x,click:lyr[i].click});
-			}
-			if(lyr[i].y){
-				AnimPos.push({name:lyr[i].name,time:lyr[i].time,y:lyr[i].y,click:lyr[i].click});
-			}
-			if(lyr[i].func){
-				AnimPos.push({name:lyr[i].name,func:lyr[i].func,par:lyr[i].par,time:lyr[i].time,click:lyr[i].click});
+		lyr.forEach(SetAction);
+		function SetAction(_Layer){
+			function SameNm(e){return _Layer.name==e.name;};
+			switch(_Layer.action){
+				case "Image":
+					if(_Layer.hitbtn!=undefined){
+						PlaceImage(_Layer.url,_Layer.name,_Layer.x,_Layer.y,_Layer.z,_Layer.btn,_Layer.width,_Layer.height,_Layer.hitbtn);
+					}else{
+						PlaceImage(_Layer.url,_Layer.name,_Layer.x,_Layer.y,_Layer.z,_Layer.btn,_Layer.width,_Layer.height);
+					}
+					break;
+				case "Text":
+					PlaceText(_Layer.name,_Layer.Text,_Layer.height,_Layer.x,_Layer.y,_Layer.z,_Layer.speed,_Layer.color);
+					break;
+				case "Delete":
+					var Arrpar = [[LayerImg,SameNm],[ImgBtn,SameNm],[LayerTxt,SameNm]];
+					ArrFunc([DelItemArr],Arrpar,[function(x){return x;}]);
+					break;
+				case "Wait":
+					nclick = true;
+					break;
+				case "ReTxt":
+					LayerTxt[FindIndex(LayerTxt,SameNm)].Text = _Layer.Text;
+					break;
+				case "ReImg":
+					LayerImg[FindIndex(LayerImg,SameNm)].Image = _Layer.Image;
+					break;
+				case "Animate":
+					var item = GetIAllArr(_Layer.name);
+					if(_Layer.x){
+						AnimPos.push({name:_Layer.name,time:_Layer.time,x:_Layer.x,click:_Layer.click});
+					}
+					if(_Layer.y){
+						AnimPos.push({name:_Layer.name,time:_Layer.time,y:_Layer.y,click:_Layer.click});
+					}
+					if(_Layer.func){
+						AnimPos.push({name:_Layer.name,func:_Layer.func,par:_Layer.par,time:_Layer.time,click:_Layer.click});
+					}
+					break;
 			}
 		}
-	}}
+	}
 }
 function GetIAllArr(itemNm){
 	var func = function(x){if(x.name==itemNm){found=x;return true;}else{return false}};
@@ -445,7 +455,6 @@ function Main(){
 		}else{
 			TimeLyr=0;
 		}
-		//console.log(mousePos.x+" "+mousePos.y);
 		for(var i=0;i<ImgBtn.length;i++){///chance Must
 			if(ImgBtn[i].x1!=undefined){
 				if((mousePos.x>=ImgBtn[i].x1)&&(mousePos.x<=ImgBtn[i].x2)&&(mousePos.y>=ImgBtn[i].y1)&&(mousePos.y<=ImgBtn[i].y2)){
