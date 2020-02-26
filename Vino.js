@@ -320,25 +320,25 @@ function LongTimeLyr(time){
 }
 function GameStart(ImageList){
 	StartLoad(ImageList);
-	function LoadURL(AllURL){
+	function LoadURL(url){
 		return new Promise(resolve => {
 			setTimeout(() => {
-				resolve(LoadAll(AllURL));
+				resolve(Load(url));
 			},300);
 		});
 		function LoadAll(AllURL){
 			AllURL.forEach(Load);
-			function Load(url){
-				base_image = new Image();
-				base_image.src = url;
-			}
+		}
+		function Load(url){
+			base_image = new Image();
+			base_image.src = url;
 		}
 	}
 	async function StartLoad(ImageList){
-		const waitImage = await LoadURL(ImageList);
-		LoadEnd(waitImage);
+		ImageList.forEach(await LoadURL);
+		LoadEnd();
 	}
-	function LoadEnd(gesture){
+	function LoadEnd(){
 		Main();
 		setInterval(function(){
 			Update();LoadLayer();
