@@ -318,11 +318,32 @@ function LongTimeLyr(time){
 		TimeLyr=time;
 	}
 }
-function GameStart(){
-	Main();
-	setInterval(function(){
-		Update();LoadLayer();
-	},fps);
+function GameStart(ImageList){
+	StartLoad(ImageList);
+	function LoadURL(AllURL){
+		return new Promise(resolve => {
+			setTimeout(() => {
+				resolve(LoadAll(AllURL));
+			},200);
+		});
+		function LoadAll(AllURL){
+			AllURL.forEach(Load);
+			function Load(url){
+				base_image = new Image();
+				base_image.src = url;
+			}
+		}
+	}
+	async function StartLoad(ImageList){
+		const waitImage = await LoadURL(ImageList);
+		LoadEnd();
+	}
+	function LoadEnd(){
+		Main();
+		setInterval(function(){
+			Update();LoadLayer();
+		},fps);
+	}
 }
 function DelItemArr(Arr,func){
 	var ind = FindIndex(Arr,func);
