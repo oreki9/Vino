@@ -324,7 +324,7 @@ function GameStart(ImageList){
 		return new Promise(resolve => {
 			setTimeout(() => {
 				resolve(LoadAll(AllURL));
-			},200);
+			},300);
 		});
 		function LoadAll(AllURL){
 			AllURL.forEach(Load);

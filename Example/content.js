@@ -1,5 +1,5 @@
 wordPos = [];
-ImageList = ["Images/bgimage/BG2.png","Images/bgimage/bg 014.png","Images/nanami.png"];
+ImageList = ["Images/bgimage/BG2.png","Images/87646o.png","Images/bgimage/bg 014.png","Images/nanami.png","Images/kirigiri.png"];
 wordPos.push(AddInDict("Jarum jam sudah menunjuk angka 11 dan jalan yang ramai pejalan kaki,"));
 wordPos.push(AddInDict("seorang pemuda berjalan memotong arus pejalan kaki yang beramai-ramai menuju tempat tertentu"));
 wordPos.push(AddInDict("tujuan sang pemuda adalah sebuah toko buku yang ada diseberang jalan"));
@@ -17,17 +17,17 @@ wordPos.push(AddInDict("[ sangat sulit menemukanya lho, bahkan WorldRecord membu
 wordPos.push(AddInDict("[ aku juga mencarinya tapi sangat sulit menemukanya, dengan akses Level 5-ku hanya menunjukan kalau ada beberapa yang tersisa, tetapi tidak ditampilkan tempat dan pemiliknya ]"));
 wordPos.push(AddInDict(" libhi dan Dan bertemu saat libhi ditugaskan pertama kalinya di toko buku ini "));
 //make array to string parser
-DialogEvent.push([{action:"Image",name:"bcg1",url:ImageList[0],x:0,y:0,z:0},{action:"Image",name:"bc1",url:"Images/87646o.png",x:20,y:450,z:2},{action:"Text",name:"txt1",Text:DialogString(wordPos[0]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
+DialogEvent.push([{action:"Image",name:"bcg1",url:ImageList[0],x:0,y:0,z:0},{action:"Image",name:"bc1",url:ImageList[1],x:20,y:450,z:2},{action:"Text",name:"txt1",Text:DialogString(wordPos[0]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
 DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[1]),ReAnim:true}]);
 DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[2]),ReAnim:true}]);
 DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[3]),ReAnim:true}]);
-DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[4]),ReAnim:true},{action:"ReImg",name:"bcg1",url:ImageList[1]}]);
+DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[4]),ReAnim:true},{action:"ReImg",name:"bcg1",url:ImageList[2]}]);
 DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[5]),ReAnim:true}]);
 DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[6]),ReAnim:true}]);
-DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[7]),height:15,x:50,y:500,z:0,speed:10,color:"white"},{action:"Image",name:"img1",url:ImageList[2],x:50,y:85,z:1},{action:"Text",name:"txt2",Text:"Libghi : ",height:15,x:50,y:480,z:0,speed:0,color:"white"}]);
+DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[7]),height:15,x:50,y:500,z:0,speed:10,color:"white"},{action:"Image",name:"img1",url:ImageList[3],x:50,y:85,z:1},{action:"Text",name:"txt2",Text:"Libghi : ",height:15,x:50,y:480,z:0,speed:0,color:"white"}]);
 DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[8]),ReAnim:true}]);
 DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[9]),ReAnim:true}]);
-DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[10]),height:15,x:50,y:500,z:0,speed:10,color:"white"},{action:"Image",name:"img2",url:"Images/kirigiri.png",x:400,y:60,z:1,width:636,height:539},{action:"ReTxt",name:"txt2",Text:"Dan : "}]);
+DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[10]),height:15,x:50,y:500,z:0,speed:10,color:"white"},{action:"Image",name:"img2",url:ImageList[4],x:400,y:60,z:1,width:636,height:539},{action:"ReTxt",name:"txt2",Text:"Dan : "}]);
 DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[11]),ReAnim:true}]);
 DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[12]),ReAnim:true}]);
 DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[13]),ReAnim:true}]);
