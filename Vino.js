@@ -336,9 +336,9 @@ function GameStart(ImageList){
 	}
 	async function StartLoad(ImageList){
 		const waitImage = await LoadURL(ImageList);
-		LoadEnd();
+		LoadEnd(waitImage);
 	}
-	function LoadEnd(){
+	function LoadEnd(gesture){
 		Main();
 		setInterval(function(){
 			Update();LoadLayer();
