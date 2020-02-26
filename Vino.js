@@ -339,27 +339,31 @@ function NewLayer(lyr){//setaip layer
 			function SameNm(e){return _Layer.name==e.name;};
 			switch(_Layer.action){
 				case "Image":
-					if(_Layer.hitbtn!=undefined){
-						PlaceImage(_Layer.url,_Layer.name,_Layer.x,_Layer.y,_Layer.z,_Layer.btn,_Layer.width,_Layer.height,_Layer.hitbtn);
-					}else{
-						PlaceImage(_Layer.url,_Layer.name,_Layer.x,_Layer.y,_Layer.z,_Layer.btn,_Layer.width,_Layer.height);
-					}
+					SetImage(_Layer);
 					break;
 				case "Text":
 					PlaceText(_Layer.name,_Layer.Text,_Layer.height,_Layer.x,_Layer.y,_Layer.z,_Layer.speed,_Layer.color);
 					break;
 				case "Delete":
-					var Arrpar = [[LayerImg,SameNm],[ImgBtn,SameNm],[LayerTxt,SameNm]];
-					ArrFunc([DelItemArr],Arrpar,[function(x){return x;}]);
+					DelLayer(_Layer);
 					break;
 				case "Wait":
 					nclick = true;
 					break;
 				case "ReTxt":
-					LayerTxt[FindIndex(LayerTxt,SameNm)].Text = _Layer.Text;
+					if((!_Layer.ReAnim)){
+						LayerTxt[FindIndex(LayerTxt,SameNm)].Text = _Layer.Text;
+					}else{
+						var newText = LayerTxt[FindIndex(LayerTxt,SameNm)];
+						var str = _Layer.Text;
+						DelLayer(_Layer);
+						PlaceText(newText.name,str,newText.height,newText.x,newText.y,newText.z,newText.speed,newText.color);
+					}
 					break;
 				case "ReImg":
-					LayerImg[FindIndex(LayerImg,SameNm)].Image = _Layer.Image;
+					base_image = new Image();
+					base_image.src = _Layer.url;
+					LayerImg[FindIndex(LayerImg,SameNm)].Image = base_image;
 					break;
 				case "Animate":
 					var item = GetIAllArr(_Layer.name);
@@ -373,6 +377,17 @@ function NewLayer(lyr){//setaip layer
 						AnimPos.push({name:_Layer.name,func:_Layer.func,par:_Layer.par,time:_Layer.time,click:_Layer.click});
 					}
 					break;
+			}
+			function SetImage(_Layer){
+				if(_Layer.hitbtn!=undefined){
+					PlaceImage(_Layer.url,_Layer.name,_Layer.x,_Layer.y,_Layer.z,_Layer.btn,_Layer.width,_Layer.height,_Layer.hitbtn);
+				}else{
+					PlaceImage(_Layer.url,_Layer.name,_Layer.x,_Layer.y,_Layer.z,_Layer.btn,_Layer.width,_Layer.height);
+				}
+			}
+			function DelLayer(_Layer){
+				var Arrpar = [[LayerImg,SameNm],[ImgBtn,SameNm],[LayerTxt,SameNm]];
+				ArrFunc([DelItemArr],Arrpar,[function(x){return x;}]);
 			}
 		}
 	}
