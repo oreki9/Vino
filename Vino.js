@@ -3,15 +3,19 @@ var wordPos = [];
 
 var DialogEvent = [];
 var ImgBtn = [];
+var SpriteList = [];
 var LayerTxt = [];
 var LayerImg = [];
 var AnimPos = [];
 var TimeLyr = 0;
 var Lyrnow = 0;
 var nclick = false;
+function Sprite(url,sprite){
+	this.url = url;
+	this.sprite = sprite;
+}
 function PlaceImage(dir,nm,ek,ye,ze,btn,width,height,hitb){///aray or not
-	base_image = new Image();
-	base_image.src = dir;
+	base_image = SpriteList.find(function(x){return x.url==dir}).sprite;
 	this.newImg = {Image:base_image,name:nm,x:ek,y:ye,z:ze};
 	if(width!=undefined){
 		this.newImg["width"] = width;
@@ -328,9 +332,9 @@ function GameStart(ImageList){
 			const img = new Image();
 			img.addEventListener("load", () => resolve(img));
 			img.addEventListener("error", err => reject(err));
-			let imgdom = document.createElement('img');
-			imgdom.src = src;
 			img.src = src;
+			let NewImg = new Sprite(src,img);
+			SpriteList.push(NewImg);
 		});
 	};
 	function LoadEnd(){
@@ -377,8 +381,7 @@ function NewLayer(lyr){//setaip layer
 					}
 					break;
 				case "ReImg":
-					base_image = new Image();
-					base_image.src = _Layer.url;
+					base_image = SpriteList.find(function(x){return x.url==_Layer.url}).sprite;
 					LayerImg[FindIndex(LayerImg,SameNm)].Image = base_image;
 					break;
 				case "Animate":
