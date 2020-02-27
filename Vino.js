@@ -323,6 +323,13 @@ function LongTimeLyr(time){
 	}
 }
 function GameStart(ImageList){
+	this.canvas = document.getElementsByClassName("vinowin")[0];
+	this.ctx = canvas.getContext("2d");
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = "white";
+	ctx.font = "40px Arial";
+	LoadText = "Loading";
+	ctx.fillText(LoadText, canvas.width/2-ctx.measureText(LoadText).width, canvas.height/2);
 	var promises = ImageList.map(function(url){
 		return loadImage(url);
 	});
@@ -478,7 +485,6 @@ function NextLayer(){
 	Lyrnow+=1;
 }
 function Main(){
-	this.canvas = document.getElementsByClassName("vinowin")[0];
 	canvas.addEventListener('mousedown', function(e) {
 		var mousePos = getCursorPos(canvas, e);
 		if(TimeLyr==0){
@@ -501,7 +507,6 @@ function Main(){
 			}
 		}
 	});
-	this.ctx = canvas.getContext("2d");
 	this.fps = 10;
 	NewLayer(DialogEvent[Lyrnow]);
 }
