@@ -1,4 +1,4 @@
-var wordDict = {array:[[]],width:4,height:4};
+var wordDict = {array:[[]]};
 var wordPos = [];
 
 var DialogEvent = [];
@@ -319,25 +319,18 @@ function LongTimeLyr(time){
 	}
 }
 function GameStart(ImageList){
-	StartLoad(ImageList);
-	function LoadURL(url){
-		return new Promise(resolve => {
-			setTimeout(() => {
-				resolve(Load(url));
-			},300);
+	var promises = ImageList.map(function(url){
+		return loadImage(url);
+	});
+	Promise.all(promises).then(LoadEnd);
+	function loadImage(src) {
+		return new Promise((resolve, reject) => {
+			const img = new Image();
+			img.addEventListener("load", () => resolve(img));
+			img.addEventListener("error", err => reject(err));
+			img.src = src;
 		});
-		function LoadAll(AllURL){
-			AllURL.forEach(Load);
-		}
-		function Load(url){
-			base_image = new Image();
-			base_image.src = url;
-		}
-	}
-	async function StartLoad(ImageList){
-		ImageList.forEach(await LoadURL);
-		LoadEnd();
-	}
+	};
 	function LoadEnd(){
 		Main();
 		setInterval(function(){
