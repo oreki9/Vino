@@ -328,6 +328,8 @@ function GameStart(ImageList){
 			const img = new Image();
 			img.addEventListener("load", () => resolve(img));
 			img.addEventListener("error", err => reject(err));
+			let imgdom = document.createElement('img');
+			imgdom.src = src;
 			img.src = src;
 		});
 	};
