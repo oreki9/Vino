@@ -1,36 +1,10 @@
-wordPos = [];
-ImageList = ["Images/bgimage/BG2.png","Images/87646o.png","Images/bgimage/bg 014.png","Images/nanami.png","Images/kirigiri.png"];
-wordPos.push(AddInDict("Jarum jam sudah menunjuk angka 11 dan jalan yang ramai pejalan kaki,"));
-wordPos.push(AddInDict("seorang pemuda berjalan memotong arus pejalan kaki yang beramai-ramai menuju tempat tertentu"));
-wordPos.push(AddInDict("tujuan sang pemuda adalah sebuah toko buku yang ada diseberang jalan"));
-wordPos.push(AddInDict("Toko buku tersebut adalah toko buku terbesar dalam kota tersebut"));
-wordPos.push(AddInDict("Kling-Kling, sebuah lonceng kecil yang digantung diatas pintu sebagai penanda seorang memasuki toko berbunyi"));
-wordPos.push(AddInDict("suasana toko yang bernuansa jaman dulu ini adalah salah satu hal yang disukai sang pemuda"));
-wordPos.push(AddInDict("Bisa dibilang sang pemuda adalah penyuka jaman dulu"));
-wordPos.push(AddInDict("[ Selamat datang di toko buku BookOne ]"));
-wordPos.push(AddInDict("[ Ah, Kak Dan, hari ini mau beli buku apa ya ? ]"));
-wordPos.push(AddInDict(" perempuan mendekati sang pemuda yang bernama Dan "));
-wordPos.push(AddInDict("[ Malam libhi, yang aku pesan sudah datang ? ]"));
-wordPos.push(AddInDict("[ Ah iya, Novel Dune sudah datang lho, ini ]"));
-wordPos.push(AddInDict(" perempuan yang bernama libhi menyerahkan sebuah buku tua kepada Dan"));
-wordPos.push(AddInDict("[ sangat sulit menemukanya lho, bahkan WorldRecord membutuhkan waktu berjam-jam menemukanya ]"));
-wordPos.push(AddInDict("[ aku juga mencarinya tapi sangat sulit menemukanya, dengan akses Level 5-ku hanya menunjukan kalau ada beberapa yang tersisa, tetapi tidak ditampilkan tempat dan pemiliknya ]"));
-wordPos.push(AddInDict(" libhi dan Dan bertemu saat libhi ditugaskan pertama kalinya di toko buku ini "));
-//make array to string parser
-DialogEvent.push([{action:"Image",name:"bcg1",url:ImageList[0],x:0,y:0,z:0},{action:"Image",name:"bc1",url:ImageList[1],x:20,y:450,z:2},{action:"Text",name:"txt1",Text:DialogString(wordPos[0]),height:15,x:50,y:500,z:0,speed:10,color:"white"}]);
-DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[1]),ReAnim:true}]);
-DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[2]),ReAnim:true}]);
-DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[3]),ReAnim:true}]);
-DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[4]),ReAnim:true},{action:"ReImg",name:"bcg1",url:ImageList[2]}]);
-DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[5]),ReAnim:true}]);
-DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[6]),ReAnim:true}]);
-DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[7]),height:15,x:50,y:500,z:0,speed:10,color:"white"},{action:"Image",name:"img1",url:ImageList[3],x:50,y:85,z:1},{action:"Text",name:"txt2",Text:"Libghi : ",height:15,x:50,y:480,z:0,speed:0,color:"white"}]);
-DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[8]),ReAnim:true}]);
-DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[9]),ReAnim:true}]);
-DialogEvent.push([{action:"Delete",name:"txt1"},{action:"Text",name:"txt1",Text:DialogString(wordPos[10]),height:15,x:50,y:500,z:0,speed:10,color:"white"},{action:"Image",name:"img2",url:ImageList[4],x:400,y:60,z:1,width:636,height:539},{action:"ReTxt",name:"txt2",Text:"Dan : "}]);
-DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[11]),ReAnim:true}]);
-DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[12]),ReAnim:true}]);
-DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[13]),ReAnim:true}]);
-DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[14]),ReAnim:true}]);
-DialogEvent.push([{action:"ReTxt",name:"txt1",Text:DialogString(wordPos[15]),ReAnim:true}]);
+var dataJSON = {"listImage":["Images/bgimage/BG2.png","Images/87646o.png","Images/bgimage/bg 014.png","Images/nanami.png","Images/kirigiri.png"],"listAudio":["bgm.mp3"],"dialogEvent":[[{"action":"Audio","id":"1","control":"Play","url":0},{"action":"Image","name":"bcg1","url":0,"x":0,"y":0,"z":0},{"action":"Image","name":"bc1","url":1,"x":20,"y":450,"z":2},{"action":"Text","name":"txt1","Text":0,"height":15,"x":50,"y":500,"z":0,"speed":10,"color":"white"}],[{"action":"ReTxt","name":"txt1","Text":1,"ReAnim":true}],[{"action":"ReTxt","name":"txt1","Text":2,"ReAnim":true}],[{"action":"ReTxt","name":"txt1","Text":3,"ReAnim":true}],[{"action":"ReTxt","name":"txt1","Text":4,"ReAnim":true},{"action":"ReImg","name":"bcg1","url":2}],[{"action":"ReTxt","name":"txt1","Text":5,"ReAnim":true}],[{"action":"ReTxt","name":"txt1","Text":6,"ReAnim":true}],[{"action":"Delete","name":"txt1"},{"action":"Text","name":"txt1","Text":7,"height":15,"x":50,"y":500,"z":0,"speed":10,"color":"white"},{"action":"Image","name":"img1","url":3,"x":50,"y":85,"z":1},{"action":"Text","name":"txt2","Text":"Libghi : ","height":15,"x":50,"y":480,"z":0,"speed":0,"color":"white"}],[{"action":"Audio","id":"1","control":"Stop","url":0},{"action":"ReTxt","name":"txt1","Text":8,"ReAnim":true}],[{"action":"ReTxt","name":"txt1","Text":9,"ReAnim":true}],[{"action":"Delete","name":"txt1"},{"action":"Text","name":"txt1","Text":10,"height":15,"x":50,"y":500,"z":0,"speed":10,"color":"white"},{"action":"Image","name":"img2","url":4,"x":400,"y":60,"z":1,"width":636,"height":539},{"action":"ReTxt","name":"txt2","Text":"Dan : "}],[{"action":"ReTxt","name":"txt1","Text":11,"ReAnim":true}],[{"action":"ReTxt","name":"txt1","Text":12,"ReAnim":true}],[{"action":"ReTxt","name":"txt1","Text":13,"ReAnim":true}],[{"action":"ReTxt","name":"txt1","Text":14,"ReAnim":true}],[{"action":"ReTxt","name":"txt1","Text":15,"ReAnim":true}]],"wordMatrix":[["Jarum","jam","angka","ramai","arus","sebuah","lonceng","ini","[","yang","WorldRecord","ditampilkan"],["sudah","menunjuk","11","pejalan","kaki","toko","kecil","adalah","Ah,","aku","membutuhkan","tempat"],["dan","jalan","yang","kaki,","beramai-ramai","buku","digantung","salah","Kak","pesan","waktu","pemiliknya"],["seorang","pemuda","berjalan","memotong","menuju","ada","diatas","satu","Dan,","datang","berjam-jam","]"],["tempat","tertentu","tujuan","sang","adalah","diseberang","pintu","hal","hari","?","menemukanya",""],["Toko","tersebut","terbesar","dalam","kota","Kling-Kling,","sebagai","disukai","mau","]","juga","libhi"],["penanda","memasuki","berbunyi","suasana","bernuansa","jaman","dulu","Bisa","beli","Ah","mencarinya","Dan"],["dibilang","penyuka","[","Selamat","datang","di","BookOne","]","apa","iya,","tapi","bertemu"],["ya","?","","perempuan","mendekati","bernama","Dan","Malam","libhi,","Novel","sangat","saat"],["Dune","lho,","libhi","menyerahkan","tua","kepada","sangat","sulit","menemukanya","bahkan","menemukanya,","ditugaskan"],["dengan","akses","Level","5-ku","hanya","menunjukan","kalau","beberapa","tersisa,","tetapi","tidak","pertama"],["kalinya",0,0,0,0,0,0,0,0,0,0,0]],"wordPos":[[[0,0],[1,0],[0,1],[1,1],[2,0],[2,1],[0,2],[1,2],[2,2],[3,0],[3,1],[3,2]],[[0,3],[1,3],[2,3],[3,3],[4,0],[3,1],[4,1],[2,2],[4,2],[4,3],[0,4],[1,4]],[[2,4],[3,4],[1,3],[4,4],[5,0],[5,1],[5,2],[2,2],[5,3],[5,4],[1,2]],[[0,5],[5,2],[1,5],[4,4],[5,1],[5,2],[2,5],[3,5],[4,5],[1,5]],[[5,5],[5,0],[6,0],[6,1],[2,2],[6,2],[6,3],[6,4],[6,5],[0,6],[0,3],[1,6],[5,1],[2,6]],[[3,6],[5,1],[2,2],[4,6],[5,6],[6,6],[7,0],[7,1],[7,2],[7,3],[7,4],[2,2],[7,5],[3,4],[1,3]],[[7,6],[0,7],[3,4],[1,3],[7,1],[1,7],[5,6],[6,6]],[[2,7],[3,7],[4,7],[5,7],[5,1],[5,2],[6,7],[7,7]],[[8,0],[8,1],[8,2],[8,3],[8,4],[7,0],[8,5],[8,6],[5,2],[8,7],[0,8],[1,8],[7,7]],[[2,8],[3,8],[4,8],[3,4],[1,3],[2,2],[5,8],[6,8],[2,8]],[[8,0],[7,8],[8,8],[9,0],[9,1],[9,2],[0,1],[9,3],[9,4],[9,5]],[[8,0],[9,6],[9,7],[9,8],[0,9],[0,1],[9,3],[1,9],[7,0],[9,5]],[[2,8],[3,8],[9,0],[5,8],[2,9],[3,9],[5,0],[5,2],[4,9],[5,9],[6,8]],[[8,0],[6,9],[7,9],[8,9],[1,9],[9,9],[10,0],[10,1],[10,2],[10,3],[10,4],[9,5]],[[8,0],[9,1],[10,5],[10,6],[10,7],[10,8],[7,9],[10,9],[0,10],[1,10],[2,10],[3,10],[4,10],[5,10],[6,10],[5,3],[7,10],[9,0],[8,10],[9,10],[10,10],[11,0],[11,1],[0,2],[11,2],[11,3]],[[11,4],[11,5],[0,2],[11,6],[11,7],[11,8],[11,5],[11,9],[11,10],[0,11],[5,7],[5,1],[5,2],[7,0],[11,4]]]}
+SetChapter(
+    "0",
+    dataJSON.listImage,
+    dataJSON.listAudio,
+    dataJSON.wordMatrix,
+    dataJSON.wordPos,
+    dataJSON.dialogEvent
+)
 GameStart(ImageList);

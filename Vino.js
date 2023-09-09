@@ -2,6 +2,7 @@ var wordDict = {array:[[]]};
 var wordPos = [];
 
 var DialogEvent = [];
+var audioList = [];
 var ImgBtn = [];
 var SpriteList = [];
 var LayerTxt = [];
@@ -10,6 +11,58 @@ var AnimPos = [];
 var TimeLyr = 0;
 var Lyrnow = 0;
 var nclick = false;
+var isNeverClick = true;
+var chapterId = ""
+
+// for audio handling
+class AudioLibrary {
+	constructor() {
+		this.dictAudio = {}
+		this.pendingAudio = []
+		this.isNeverClick = true;
+	}
+	playAudio(id, audioFile){
+		if (this.dictAudio[id]==audioFile){
+			this.play(id)
+		}else if (this.dictAudio[id]==null){
+			this.dictAudio[id]=audioFile
+			this.createChannel(id, audioFile)
+			if (this.isNeverClick) {
+				this.pendingAudio.push({ id: id, url: audioFile})
+			}else{
+				this.play(id)
+			}
+		}
+	}
+	stopAudio(id, audioFile){
+		this.stop(id)
+		this.dictAudio[id] = null
+	}
+	playPendingAudio(){
+		for(var i=0;i<this.pendingAudio.length;i++){
+			this.playAudio(this.pendingAudio[i].id, this.pendingAudio[i].url)
+		}
+	}
+	createChannel(id, tempAudio){
+		const audioDOM = document.createElement('audio');
+		const sourceTemp = document.createElement('source');
+		audioDOM.id = "audio-element"+id
+		sourceTemp.src = tempAudio
+		sourceTemp.type="audio/mpeg"
+		document.body.appendChild(audioDOM)
+		audioDOM.appendChild(sourceTemp);
+	}
+	play(id){
+		document.getElementById('audio-element'+id).play()
+	}
+	stop(id){
+		document.getElementById('audio-element'+id).pause()
+	}
+}
+var audioChannel = new AudioLibrary();
+audioChannel.isNeverClick = isNeverClick
+
+
 function Sprite(url,sprite){
 	this.url = url;
 	this.sprite = sprite;
@@ -322,6 +375,10 @@ function LongTimeLyr(time){
 		TimeLyr=time;
 	}
 }
+var audioElement = null
+function getAuduio(){
+	this.audioElement = document.getElementById('audio-element');
+}
 function GameStart(ImageList){
 	this.canvas = document.getElementsByClassName("vinowin")[0];
 	this.ctx = canvas.getContext("2d");
@@ -341,6 +398,7 @@ function GameStart(ImageList){
 			img.addEventListener("error", err => reject(err));
 			img.src = src;
 			let NewImg = new Sprite(src,img);
+			console.log(JSON.stringify(SpriteList))
 			SpriteList.push(NewImg);
 		});
 	};
@@ -350,6 +408,16 @@ function GameStart(ImageList){
 			Update();LoadLayer();
 		},fps);
 	}
+}
+function SetChapter(_id, _listImage, _listAudio, _wordMatrix, _wordPos, _eventDialog){
+	chapterId = _id
+	ImageList = _listImage
+	audioList = _listAudio
+	wordDict.array = _wordMatrix
+	wordPos = _wordPos.map((x)=>{
+        return x.map((y)=>{ return {x: y[0], y: y[1]} })
+    })
+	DialogEvent = _eventDialog
 }
 function DelItemArr(Arr,func){
 	var ind = FindIndex(Arr,func);
@@ -369,10 +437,17 @@ function NewLayer(lyr){//setaip layer
 					SetImage(_Layer);
 					break;
 				case "Text":
-					PlaceText(_Layer.name,_Layer.Text,_Layer.height,_Layer.x,_Layer.y,_Layer.z,_Layer.speed,_Layer.color);
+					PlaceText(_Layer.name,checkDialog(_Layer.Text),_Layer.height,_Layer.x,_Layer.y,_Layer.z,_Layer.speed,_Layer.color);
 					break;
 				case "Delete":
 					DelLayer(_Layer);
+					break;
+				case "Audio": 
+					let urlAudio = audioList[_Layer.url]
+					switch(_Layer.control){
+						case "Play": audioChannel.playAudio(_Layer.id, urlAudio); break;
+						case "Stop": audioChannel.stopAudio(_Layer.id, urlAudio); break;
+					}
 					break;
 				case "Wait":
 					nclick = true;
@@ -382,13 +457,13 @@ function NewLayer(lyr){//setaip layer
 						LayerTxt[FindIndex(LayerTxt,SameNm)].Text = _Layer.Text;
 					}else{
 						var newText = LayerTxt[FindIndex(LayerTxt,SameNm)];
-						var str = _Layer.Text;
+						var str = checkDialog(_Layer.Text);
 						DelLayer(_Layer);
 						PlaceText(newText.name,str,newText.height,newText.x,newText.y,newText.z,newText.speed,newText.color);
 					}
 					break;
 				case "ReImg":
-					base_image = SpriteList.find(function(x){return x.url==_Layer.url}).sprite;
+					base_image = SpriteList.find(function(x){return x.url==ImageList[_Layer.url]}).sprite;
 					LayerImg[FindIndex(LayerImg,SameNm)].Image = base_image;
 					break;
 				case "Animate":
@@ -405,10 +480,11 @@ function NewLayer(lyr){//setaip layer
 					break;
 			}
 			function SetImage(_Layer){
+				let getImage = ImageList[_Layer.url]
 				if(_Layer.hitbtn!=undefined){
-					PlaceImage(_Layer.url,_Layer.name,_Layer.x,_Layer.y,_Layer.z,_Layer.btn,_Layer.width,_Layer.height,_Layer.hitbtn);
+					PlaceImage(getImage,_Layer.name,_Layer.x,_Layer.y,_Layer.z,_Layer.btn,_Layer.width,_Layer.height,_Layer.hitbtn);
 				}else{
-					PlaceImage(_Layer.url,_Layer.name,_Layer.x,_Layer.y,_Layer.z,_Layer.btn,_Layer.width,_Layer.height);
+					PlaceImage(getImage,_Layer.name,_Layer.x,_Layer.y,_Layer.z,_Layer.btn,_Layer.width,_Layer.height);
 				}
 			}
 			function DelLayer(_Layer){
@@ -486,6 +562,7 @@ function NextLayer(){
 }
 function Main(){
 	canvas.addEventListener('mousedown', function(e) {
+		if(isNeverClick){ audioChannel.playPendingAudio(); isNeverClick=false; audioChannel.isNeverClick=false}
 		var mousePos = getCursorPos(canvas, e);
 		if(TimeLyr==0){
 			if(nclick==false){
@@ -527,23 +604,6 @@ function getCursorPos(canvas, event) {
     return {x:X,y:Y};
 }
 
-//read file this secion
-function readFile(e) {
-	var file = e.target.files[0];
-	if (!file) {
-		return;
-	}
-	var reader = new FileReader();
-	reader.onload = function(e) {
-		var contents = e.target.result;
-		displayContents(contents);
-	};
-	reader.readAsText(file);
-}
-document.getElementById('file-input').addEventListener('change', readFile, false);
-function displayContents(contents) {
-	console.log(contents);
-}
 //end
 function lengthVert(wordDict,o){//panjang bawah array2d
 	var stop = wordDict[0][o];
@@ -561,7 +621,7 @@ function FindIndex(array,func){
 		}
 	}
 }
-function AddInDict(word){
+function AddInDict(word){ // this code make side effect or not pure function
 	var SplitWord = word.split(" ");
 	var ArrayPos = [];
 	SplitWord.forEach(WDExist);
@@ -608,6 +668,13 @@ function PrintMatrix(matrix){
 		newarray.push(arraychild);
 	});
 }
+let checkDialog = (indexCheck) => {
+	if(typeof indexCheck === "string" ){
+		return indexCheck
+	}else{
+		return DialogString(wordPos[indexCheck])
+	}
+}
 function SaveToJS(){
 	function RowInWD(item){
 		var wordDictStr = "";
@@ -623,10 +690,30 @@ function SaveToJS(){
 		WordPosStr+=']';
 		return WordPosStr;
 	}
-	console.log("wordDict.array=["+wordDict.array.map(RowInWD).join(",")+"];");
-	console.log("wordPos=["+wordPos.map(RowinWordPos).join(",")+"];");
+	const content = JSON.stringify({
+		listImage: ImageList,
+		listAudio: audioList,
+		dialogEvent: DialogEvent,
+		wordMatrix: wordDict.array,
+		wordPos: wordPos.map((x)=>{ 
+			return x.map((y)=>{ return [y.x, y.y] })
+		}),
+	})
+	const blob = new Blob([content], { type: 'text/plain' });
+	const url = window.URL.createObjectURL(blob);
+
+	const a = document.createElement('a');
+	a.href = url;
+	a.download = 'myFile.js';
+	a.textContent = 'Download Text File';
+
+	document.body.appendChild(a);
+	a.click();
+	window.URL.revokeObjectURL(url);
+	document.body.removeChild(a);
 }
-function DialogString(arai){//mengubah array ke string dengan wordDict
+function DialogString(arai){//mengubah array ke string dengan wordDict dan return string jika string
+	if (typeof arai == "string"){ return arai }
 	var kata = "";
 	for(var o=0;o<arai.length;o++){
 		kata+=wordDict.array[arai[o].y][arai[o].x]+" ";
