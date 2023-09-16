@@ -1,6 +1,5 @@
 var wordDict = {array:[[]]};
 var wordPos = [];
-
 var DialogEvent = [];
 var audioList = [];
 var ImgBtn = [];
@@ -12,7 +11,16 @@ var TimeLyr = 0;
 var Lyrnow = 0;
 var nclick = false;
 var isNeverClick = true;
+var isFirstLoad = true
 var chapterId = ""
+var nextChapter = {
+	chapterId: "",
+	listImage: [],
+	listAudio: [],
+	wordMatrix: [],
+	wordPos: [],
+	dialogEvent: [],
+}
 
 // for audio handling
 class AudioLibrary {
@@ -379,7 +387,7 @@ var audioElement = null
 function getAuduio(){
 	this.audioElement = document.getElementById('audio-element');
 }
-function GameStart(ImageList){
+function GameStart(){
 	this.canvas = document.getElementsByClassName("vinowin")[0];
 	this.ctx = canvas.getContext("2d");
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -390,7 +398,12 @@ function GameStart(ImageList){
 	var promises = ImageList.map(function(url){
 		return loadImage(url);
 	});
-	Promise.all(promises).then(LoadEnd);
+	Promise.all(promises).then(()=>{
+		var promisesAudio = audioList.map(function(url){
+			return loadAudio(url);
+		});
+		Promise.all(promisesAudio).then(LoadEnd)
+	});
 	function loadImage(src) {
 		return new Promise((resolve, reject) => {
 			const img = new Image();
@@ -398,26 +411,65 @@ function GameStart(ImageList){
 			img.addEventListener("error", err => reject(err));
 			img.src = src;
 			let NewImg = new Sprite(src,img);
-			console.log(JSON.stringify(SpriteList))
 			SpriteList.push(NewImg);
 		});
 	};
+	function loadAudio(src){
+		return new Promise((resolve, reject) => {
+			const audioDOM = document.createElement('audio');
+			audioDOM.id = "audio-element"
+			audioDOM.src = src
+			audioDOM.preload = "auto";
+			audioDOM.addEventListener('canplaythrough', function () {
+				resolve(audioDOM)
+			});
+			audioDOM.addEventListener("error", (err) => {
+				reject(err)
+			})
+		  });
+	}
 	function LoadEnd(){
-		Main();
-		setInterval(function(){
-			Update();LoadLayer();
-		},fps);
+		if(isFirstLoad){
+			Main();
+			setInterval(function(){
+				Update();LoadLayer();
+			},fps);
+			isFirstLoad = false
+		}else{
+			LoadLayer()
+		}
 	}
 }
+function LoadNextChapter(){
+	chapterId = nextChapter.chapterId
+	ImageList = nextChapter.listImage
+	audioList = nextChapter.listAudio
+	wordDict.array = nextChapter.wordMatrix
+	wordPos = nextChapter.wordPos
+	DialogEvent = nextChapter.dialogEvent
+}
 function SetChapter(_id, _listImage, _listAudio, _wordMatrix, _wordPos, _eventDialog){
-	chapterId = _id
-	ImageList = _listImage
-	audioList = _listAudio
-	wordDict.array = _wordMatrix
-	wordPos = _wordPos.map((x)=>{
-        return x.map((y)=>{ return {x: y[0], y: y[1]} })
-    })
-	DialogEvent = _eventDialog
+	if (chapterId == ""){
+		chapterId = _id
+		ImageList = _listImage
+		audioList = _listAudio
+		wordDict.array = _wordMatrix
+		wordPos = _wordPos.map((x)=>{
+			return x.map((y)=>{ return {x: y[0], y: y[1]} })
+		})
+		DialogEvent = _eventDialog
+	}else{
+		nextChapter = {
+			chapterId: _id,
+			listImage: _listImage,
+			listAudio: _listAudio,
+			wordMatrix: _wordMatrix,
+			wordPos: _wordPos.map((x)=>{
+				return x.map((y)=>{ return {x: y[0], y: y[1]} })
+			}),
+			dialogEvent: _eventDialog
+		}
+	}
 }
 function DelItemArr(Arr,func){
 	var ind = FindIndex(Arr,func);
@@ -566,8 +618,15 @@ function Main(){
 		var mousePos = getCursorPos(canvas, e);
 		if(TimeLyr==0){
 			if(nclick==false){
-				NextLayer();
-				NewLayer(DialogEvent[Lyrnow]);
+				if(Lyrnow>=DialogEvent.length){
+					Lyrnow = 0
+					LoadNextChapter()
+					GameStart()
+					NewLayer(DialogEvent[Lyrnow]);
+				}else{
+					NextLayer();
+					NewLayer(DialogEvent[Lyrnow]);
+				}
 			}
 		}else{
 			TimeLyr=0;
